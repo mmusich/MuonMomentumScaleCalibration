@@ -39,7 +39,25 @@ process.XMLFromDBSource.label = cms.string("Extended")
 process.load("TrackPropagation.Geant4e.geantRefit_cff")
 
 do_3dfieldmap = True
-    
+'''
+import PhysicsTools.NanoAODTools.postprocessing.framework.crabhelper as nano_crab
+
+print(nano_crab.inputFiles())
+'''
+
+process.maxEvents = cms.untracked.PSet(
+    input = cms.untracked.int32(-1)
+)
+'''
+import PSet
+
+print(PSet.process.source.fileNames)
+
+process.source = cms.Source("PoolSource",
+    fileNames = PSet.process.source.fileNames,
+    secondaryFileNames = cms.untracked.vstring(),
+)
+'''
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
         'root://cms-xrd-global.cern.ch//store/data/Run2018C/Charmonium/ALCARECO/TkAlJpsiMuMu-12Nov2019_UL2018_rsb_v3-v1/10000/C46AC950-9AB8-F340-BCF8-491CFC20EF6E.root',
@@ -192,6 +210,7 @@ process.globalCor = cms.EDProducer('ResidualGlobalCorrectionMakerTwoTrackG4e',
                                    #     'HLT_QuadMuon0_Dimuon0_Upsilon']),
 
                                    MagneticFieldLabel = cms.string(""),
+                                   outprefix = cms.untracked.string("globalcor_data"),
 
 )
 
